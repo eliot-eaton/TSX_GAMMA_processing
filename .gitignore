@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+
+# Data files
+*.tif
+*.tiff
+*.h5
+*.hdf5
+data/
+
+# Credentials
+*credentials*
+*secrets*
