@@ -1,9 +1,0 @@
-include README.md
-include LICENSE
-include requirements.txt
-include setup.py
-recursive-include config *.yaml *.yml *.json
-recursive-include examples *.json *.yaml *.yml
-recursive-exclude data *
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]

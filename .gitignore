@@ -6,57 +6,23 @@ __pycache__/
 .Python
 env/
 venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
-
-# Data directories
-data/raw/
-data/processed/
-data/output/
-*.tif
-*.tiff
-*.geotiff
-*.h5
-*.hdf5
-
-# GAMMA specific
-*.par
-*.slc
-*.mli
-*.int
-*.cc
-*.unw
-*.diff
-*.filt
 
 # IDEs
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
 
 # OS
 .DS_Store
-Thumbs.db
 
-# Logs
-*.log
+# Data files
+*.tif
+*.tiff
+*.h5
+*.hdf5
+data/
 
-# Credentials and configs with sensitive data
-*_credentials.json
-*_secrets.json
+# Credentials
+*credentials*
+*secrets*
