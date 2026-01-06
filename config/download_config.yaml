@@ -1,0 +1,34 @@
+# Example configuration for downloading TerraSAR-X data from EOC Geoservice
+
+# EOC Geoservice credentials (required)
+# Note: Keep this file secure and do not commit credentials to version control
+username: "your_username_here"
+password: "your_password_here"
+
+# Area of interest (bounding box)
+area_of_interest:
+  min_lon: 10.0
+  min_lat: 45.0
+  max_lon: 11.0
+  max_lat: 46.0
+
+# Time range
+time_range:
+  start_date: "2020-01-01"
+  end_date: "2020-12-31"
+
+# Product specifications
+product:
+  type: "SSC"  # Options: SSC, MGD, GEC, EEC
+  mission: "TSX"  # TerraSAR-X
+
+# Download settings
+download:
+  output_dir: "data/raw"
+  max_concurrent: 2  # Maximum concurrent downloads
+  verify_checksum: true
+
+# Processing preferences
+processing:
+  auto_extract: true  # Automatically extract downloaded archives
+  remove_archive: false  # Keep original archives after extraction

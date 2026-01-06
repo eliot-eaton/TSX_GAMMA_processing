@@ -1,0 +1,51 @@
+# Example configuration for GAMMA InSAR processing
+
+# GAMMA installation
+gamma:
+  home: "/opt/GAMMA"  # Path to GAMMA installation (or use $GAMMA_HOME)
+
+# Processing directories
+directories:
+  raw_data: "data/raw"
+  work_dir: "data/processed"
+  output_dir: "data/output"
+
+# DEM configuration
+dem:
+  file: "data/dem/dem.tif"
+  source: "SRTM"  # DEM source (SRTM, ASTER, etc.)
+  
+# Interferogram processing parameters
+insar:
+  # Coregistration
+  coregistration:
+    method: "intensity"  # intensity or phase
+    window_size: 256
+    
+  # Filtering
+  filtering:
+    method: "adaptive"  # adaptive or goldstein
+    alpha: 0.5  # Filtering parameter (0-1)
+    window_size: 32
+    
+  # Unwrapping
+  unwrapping:
+    method: "mcf"  # mcf or snaphu
+    coherence_threshold: 0.3
+    
+  # Geocoding
+  geocoding:
+    pixel_spacing: 30  # Output pixel spacing in meters
+    oversample: 2.0
+
+# Pair selection
+pairs:
+  max_temporal_baseline: 90  # days
+  max_perpendicular_baseline: 300  # meters
+  min_coherence: 0.3
+
+# Processing options
+options:
+  multilook_range: 1
+  multilook_azimuth: 1
+  dem_oversampling: 2.0
