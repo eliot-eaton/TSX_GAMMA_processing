@@ -1,6 +1,6 @@
 # TSX_supersite_GAMMA_processing
 
-Scripts for TerraSAR-X / TanDEM-X interferometric processing with **GAMMA**.
+Processing Scripts for TerraSAR-X / TanDEM-X interferometric processing with **GAMMA** used for SBAS InSAR during Volcanology PhD .
 
 ## Important dependency
 
