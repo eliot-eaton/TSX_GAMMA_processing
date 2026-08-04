@@ -3116,6 +3116,22 @@ def crop_slc(date,config):
         slc_to_tif(slc_name)
     except Exception as e:
         print(f'ERROR during converting slc to tif: {e}')
+
+
+    if config['cleanup']:
+        keep_files = [slc_name, 
+                      slc_par_name,date+'.slc.par.kml.log',
+                      date+'.slc.par.kml',
+                      date+'.ccp']
+        
+        all_files = glob(os.path.join(slc_date_dir, f'{date}.*'))
+        for file in all_files:
+            if file not in keep_files:
+                try:
+                    os.remove(file)
+                except Exception as e:
+                    print(f'ERROR during cleanup of intermediate files: {e}')
+    
     return 
 
 def plot_backup_diff(date1,date2,config):
