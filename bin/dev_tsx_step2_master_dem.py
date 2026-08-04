@@ -19,8 +19,12 @@ def main():
     config['topdir'] = topdir
     config['slc_dir'] = os.path.join(topdir, 'slcs')
     config['rslc_dir'] = os.path.join(topdir, 'rslcs')
-    config['dim_dir'] = os.path.join(topdir,'*')
-    config['og_dem_dir'] = os.path.join(topdir,'..','dem')
+    
+    if 'dim_dir' in config:
+        config['og_dem_dir'] = os.path.normpath(config['dim_dir'])
+    else:
+        config['og_dem_dir'] = os.path.join(topdir,'..','dem')
+    
     dateM = config['dateM']
     ndays = config['n_days']
     min_n_days = config['min_n_days']
