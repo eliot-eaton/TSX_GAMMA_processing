@@ -4,9 +4,11 @@ Processing Scripts for TerraSAR-X / TanDEM-X interferometric processing with **G
 
 ## Important dependency
 
-This repository depends on the **commercial GAMMA software** (including `py_gamma`).
+This repository depends on the **commercial GAMMA software v20200728** (including `py_gamma`).
 Without a valid GAMMA installation and license, these scripts will not run.
 
+## GAMMA
+These scripts currently do no work with the latest gamma version
 ## Repository layout
 
 - `dev_tsx_step1_dim_to_slc.py` — build SLCs from input products

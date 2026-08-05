@@ -19,9 +19,10 @@ def main():
     config['topdir'] = topdir
     config['slc_dir'] = os.path.join(topdir, 'slcs')
     config['rslc_dir'] = os.path.join(topdir, 'rslcs')
-    
-    if 'dim_dir' in config:
-        config['og_dem_dir'] = os.path.normpath(config['dim_dir'])
+    config['dim_dir'] = os.path.join(topdir,'*')
+
+    if 'dem_dir' in config:
+        config['og_dem_dir'] = os.path.normpath(config['dem_dir'])
     else:
         config['og_dem_dir'] = os.path.join(topdir,'..','dem')
     
@@ -58,10 +59,7 @@ def main():
     print(bcolors.OKCYAN+"Dates provided are in correct format: Validation passed. Updated dateM:", dateM,bcolors.ENDC)
     print(bcolors.WARNING+f'{len(dates1)} Ifgms to be processed'+bcolors.ENDC)
     
-    print('Writing to:',os.path.join(topdir, 'log_proc_master_slc.txt'))
-    log_file_path = os.path.join(topdir, 'log_proc_master_slc.txt')
-    sys.stdout = open(log_file_path, 'w')
-    sys.stderr = sys.stdout
+
     try:
         if not os.path.exists(os.path.join(topdir,'slcs',f'{dateM}M')):
             proc_master_slc(config) # Process master SLC
@@ -73,10 +71,7 @@ def main():
     except Exception as e:
         print("Error in master SLC processing:", e)
         return
-    finally:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
-        sys.stderr = sys.__stderr__
+ 
 
     produce_lookvectors(config) # Produce look vectors
 

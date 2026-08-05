@@ -2,7 +2,7 @@
     "rlks": 6,
     "azlks": 3,
     "dem": "wolf_cop30",
-    "dem_dir":"~/dem",
+    "dem_dir":"/home/users/ee16eme/dem",
     "demlat": 8,
     "demlon": 8,
     "npat_r": 1,
