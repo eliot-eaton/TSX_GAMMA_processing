@@ -2382,7 +2382,7 @@ def proc_unw(date1,date2,config):
     
     pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.cc.geo'), 
                         os.path.join(rslc_dir,date2,f'{date2}_geocode.mli'), 
-                        widthdem, '-', '-', 10, 10, 0.1, 0.9, 2,'-', 
+                        widthdem, '-', '-', 1, 1, 0.1, 0.9, 2,'-', 
                         os.path.join(ifgm_dir,f'{date1}-{date2}.cc.geo.tif'),
                         1,.35)
     
@@ -2407,7 +2407,7 @@ def proc_unw(date1,date2,config):
         # print in blue, phase unwrapping in radar coords 
         print(bcolors.OKBLUE + f'Phase unwrapping {date1}-{date2} in radar coordinates' + bcolors.ENDC)
         # Phase unwrapping mask
-        pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'),
+        pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.cc'),
                     os.path.join(rslc_dir,date1, f'{date1}.mli'), widthmli, 1, 1, 0, 1, 1, 0.5, 0.0, 0.1, 0.9, 1.0, 0.20, 1, 
                     os.path.join(ifgm_dir,f'{date1}-{date2}.mask.ras'))
         # Unwrap Minimum Cost Function
@@ -2443,13 +2443,13 @@ def proc_unw(date1,date2,config):
         
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo'), 
                     os.path.join(rslc_dir,date2,f'{date2}_geocode.mli'), 
-                    widthdem,'-', '-', 10, 10, 0.1, 0.9, 2,'-',  
+                    widthdem,'-', '-', 1, 1, 0.1, 0.9, 2,'-',  
                     os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo.tif'),1,.35)
 
 
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
                     os.path.join(rslc_dir,date2,f'{date2}.mli'), 
-                    widthmli, '-', '-', 10, 10, 0.1, 0.9, 2,'-', 
+                    widthmli, '-', '-', 1, 1, 0.1, 0.9, 2,'-', 
                     os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'),
                     1,.35)
 
@@ -2482,12 +2482,23 @@ def proc_unw(date1,date2,config):
                 '-', '-', '-', '-', 
                 npat_r, npat_az, '-',
                 '-', '-', 1)
+        pg.data2geotiff(os.path.join(ifgm_dir,'P.dem_par'), 
+                        os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo'), 2,
+                        os.path.join(ifgm_dir,f'{date1}-{date2}.unw.geo.tif'), 0.0)
+        pg.data2geotiff(os.path.join(ifgm_dir,'P.dem_par'), 
+                        os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw'), 2,
+                        os.path.join(ifgm_dir,f'{date1}-{date2}.geo.unw.tif'), 0.0)
 
+        
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw'), 
                     os.path.join(rslc_dir,date2,f'{date2}_geocode.mli'), 
-                    widthdem,'-', '-', 10, 10, 0.1, 0.9, 2,'-',  
+                    widthdem,'-', '-', 1, 1, 0.1, 0.9, 2,'-',  
                     os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw.tif'),1,.35)
 
+        pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo'), 
+                         os.path.join(rslc_dir,f'{date2}',f'{date2}.mli'),
+                         widthdem, '-','-', '-', '-', '-',
+                         os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.tif'))
 
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
                     os.path.join(rslc_dir,date2,f'{date2}.mli'), 
