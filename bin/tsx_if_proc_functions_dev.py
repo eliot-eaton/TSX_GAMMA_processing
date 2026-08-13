@@ -2443,10 +2443,10 @@ def proc_unw(date1,date2,config):
                           widthmli, 1, 1, 0, '-', '-', 1., .20, 1,
                           os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.tif'))
         
-        pg.rasrmg(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo'), 
+        pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo'), 
                     os.path.join(rslc_dir,date2,f'{date2}_geocode.mli'), 
-                    widthdem, 1, 1, 0, 10, 10, 1., 1., .20, 0, 1, 
-                    os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo.tif'))
+                    widthdem,'-', '-', 10, 10, 0.1, 0.9, 2,'-',  
+                    os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo.tif'),1,.35)
 
 
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
@@ -2485,10 +2485,10 @@ def proc_unw(date1,date2,config):
                 npat_r, npat_az, '-',
                 '-', '-', 1)
 
-        pg.rasrmg(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw'), 
+        pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw'), 
                     os.path.join(rslc_dir,date2,f'{date2}_geocode.mli'), 
-                    widthdem, 1, 1, 0, 10, 10, 1., 1., .20, 0, 1, 
-                    os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw.tif'))
+                    widthdem,'-', '-', 10, 10, 0.1, 0.9, 2,'-',  
+                    os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw.tif'),1,.35)
 
 
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
