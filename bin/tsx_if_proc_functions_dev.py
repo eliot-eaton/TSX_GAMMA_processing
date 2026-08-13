@@ -1655,6 +1655,22 @@ def proc_if(date1,date2,config):
     slc_dir = config["slc_dir"]
     dim_dir = config["dim_dir"]
     
+    # check if config has adf_unw_config 
+    if "adf_filter" in config:
+        adf_filter = config["adf_filter"]
+    else:
+        adf_filter = False
+
+    if 'unw_in_radar' in config:
+        unw_in_radar = config['unw_in_radar']
+    else: 
+        unw_in_radar = True
+
+    if 'unw_in_geo' in config:
+        unw_in_geo = config['unw_in_geo']
+    else:
+        unw_in_geo = False
+
 
     dateM_mli_par = pg.ParFile(os.path.join(topdir,'slcs',f'{dateM}M',f'{dateM}.mli.par'))
     lengthmli= int(dateM_mli_par.get_value('azimuth_lines')) 
@@ -1781,36 +1797,76 @@ def proc_if(date1,date2,config):
                 file.write(f'{date1} {date2} {bperp} {ndays12:.1f} {ndays1:.1f} {ndays2:.1f} {bperp1} {bperp2}\n')
         except Exception as e: 
             print(f"Error writing bperp values to file: {e}")
-
+    if adf_filter==False:
     #Adaptive interferogram filter using the power spectral density
-    pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.smcc'),
-           widthmli, 0.3, 64, 7, '-', 0, '-', 0.2)
-    
-    #Adaptive interferogram filter using the power spectral density    
-    pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm2'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.smcc2'), 
-           widthmli, 0.4, 32, 7, '-',0, '-', 0.2)
-    
+        pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff'), 
+            os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm'), 
+            os.path.join(ifgm_dir,f'{date1}-{date2}.smcc'),
+            widthmli, 0.3, 64, 7, '-', 0, '-', 0.2)
+        
+        #Adaptive interferogram filter using the power spectral density    
+        pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm'), 
+            os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm2'), 
+            os.path.join(ifgm_dir,f'{date1}-{date2}.smcc2'), 
+            widthmli, 0.4, 32, 7, '-',0, '-', 0.2)
+        
 
- 
-    #Adaptive interferogram filter using the power spectral density    
-    pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm2'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm3'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
-           widthmli, 0.5, 16, 7, '-', 0, '-', 0.2)
     
-    pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm3'), 
+        #Adaptive interferogram filter using the power spectral density    
+        pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm2'), 
+            os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm3'), 
+            os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
+            widthmli, 0.5, 16, 7, '-', 0, '-', 0.2)
+        rounds = 3
+    else: 
+        rounds = config["adf_filter"]["rounds"]
+        # Extract the settings dictionary from your loaded JSON data
+        settings = config["adf_filter"]["settings"]
+
+        # Define the file suffixes for each consecutive step
+        in_suffixes = ["", "_sm", "_sm2"]
+        out_suffixes = ["_sm", "_sm2", "_sm3"]
+        cc_suffixes = ["", "2", "3"]
+
+        # Dynamically loop through the rounds (1 to 3)
+        for step in range(1, 4):
+            # Dynamically fetch the current round's configuration (round_1, round_2, round_3)
+            setting = settings[f"round_{step}"]
+            
+            # Map index for file suffixes
+            idx = step - 1
+            
+            # Construct input, output, and cc file paths
+            in_file = os.path.join(ifgm_dir, f"{date1}-{date2}.diff{in_suffixes[idx]}")
+            out_file = os.path.join(ifgm_dir, f"{date1}-{date2}.diff{out_suffixes[idx]}")
+            cc_file = os.path.join(ifgm_dir, f"{date1}-{date2}.smcc{cc_suffixes[idx]}")
+            
+            # Execute the PyRATE / Gamma adf command using the round's specific parameters
+            pg.adf(
+                in_file, 
+                out_file, 
+                cc_file,
+                widthmli, 
+                setting["alpha"], 
+                setting["nfft"], 
+                setting["cc_win"], 
+                '-', 
+                0, 
+                '-', 
+                setting['wfrac']
+            )
+
+
+    
+    pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), 
                   os.path.join(rslc_dir,f'{date2}',f'{date2}.mli'),
                   widthmli, 1, 1, 0, '-', '-', 1., .20, 1,
-                  os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm3.tif'))
+                  os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}.tif'))
     
-    pg.rascc(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
+    pg.rascc(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
                 os.path.join(rslc_dir,date1,f'{date1}.mli'), 
                 widthmli, 1, 1, 0, '-', '-', 0.1, 0.9, 1.0, .35, 1,
-                os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'))
+                os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'))
     
     #plot_backup_diff(date1,date2,config)
 

@@ -7,6 +7,7 @@ def main():
     parser = argparse.ArgumentParser(description="A script to process TSX or TDX slcs to IF.")
     # Add arguments
     parser.add_argument('config_file', type=str, help='config file')
+    parser.add_argument('adf_unw_file', type=str, help='config file')
     args = parser.parse_args()
     # Directory organisations 
     topdir = os.getcwd()
@@ -17,6 +18,11 @@ def main():
     with open(args.config_file, 'r') as f:
         config = json.load(f)
 
+    if args.adf_unw_file:
+        with open(args.adf_unw_file, 'r') as f:
+            adf_unw_config = json.load(f)
+        config.update(adf_unw_config)
+    
     config['topdir'] = topdir
     config['slc_dir'] = os.path.join(topdir, 'slcs')
     config['dim_dir'] = os.path.join(topdir,'*')

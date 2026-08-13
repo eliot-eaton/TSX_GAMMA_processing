@@ -1,0 +1,27 @@
+{
+  "adf_filter": {
+    "rounds": 3,
+    "settings": {
+      "round_1": {
+        "alpha": 0.5,
+        "nfft": 32,
+        "cc_win": 5,
+        "wfrac": 0.5
+      },
+      "round_2": {
+        "alpha": 0.5,
+        "nfft": 32,
+        "cc_win": 5,
+        "wfrac": 0.5
+      },
+      "round_3": {
+        "alpha": 0.5,
+        "nfft": 32,
+        "cc_win": 5,
+        "wfrac": 0.5
+      }
+    }
+  },
+  "unw_in_radar": true,
+  "unw_in_geo": true
+}
