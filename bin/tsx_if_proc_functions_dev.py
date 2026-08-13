@@ -1849,7 +1849,7 @@ def proc_if(date1,date2,config):
                             out_file+'.tif')
             pg.rasdt_pwr(cc_file, 
                              os.path.join(rslc_dir,date2,f'{date2}.mli'), 
-                             widthmli,  '-','-', '-', '-', '-',
+                             widthmli,  '-','-', '-', '-', '-','-','-','-',
                              cc_file+'.tif')
 
     
