@@ -1844,11 +1844,17 @@ def proc_if(date1,date2,config):
                   widthmli, 1, 1, 0, '-', '-', 1., .20, 1,
                   os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}.tif'))
     
-    pg.rascc(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
+    pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
                 os.path.join(rslc_dir,date1,f'{date1}.mli'), 
-                widthmli, 1, 1, 0, '-', '-', 0.1, 0.9, 1.0, .35, 1,
-                os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'))
+                widthmli, '-', '-', 10, 10, 0.1, 0.9, 2,'-',
+                os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'),1,.35)
     
+
+    # pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
+    #                     os.path.join(rslc_dir,date2,f'{date2}.mli'), 
+    #                     widthmli, '-', '-', 10, 10, 0.1, 0.9, 2,'-', 
+    #                     os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'),
+    #                     1,.35)
     #plot_backup_diff(date1,date2,config)
 
     if cleanup:
@@ -2376,10 +2382,11 @@ def proc_unw(date1,date2,config):
                                 os.path.join(ifgm_dir,f'{date1}-{date2}.cc.geo'),
                                 widthdem, '-', 2)
     
-    pg.rascc(os.path.join(ifgm_dir,f'{date1}-{date2}.cc.geo'), 
+    pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.cc.geo'), 
                         os.path.join(rslc_dir,date2,f'{date2}_geocode.mli'), 
-                        widthdem, 1, 1, 0, 10, 10, 0.1, 0.9, 1.0, .35, 1,
-                        os.path.join(ifgm_dir,f'{date1}-{date2}.cc.geo.tif'))
+                        widthdem, '-', '-', 10, 10, 0.1, 0.9, 2,'-', 
+                        os.path.join(ifgm_dir,f'{date1}-{date2}.cc.geo.tif'),
+                        1,.35)
     
     if 'unw_in_radar' in config:
         unw_in_radar = config['unw_in_radar']
@@ -2442,10 +2449,13 @@ def proc_unw(date1,date2,config):
                     os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw.geo.tif'))
 
 
-        pg.rascc(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
+        pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
                     os.path.join(rslc_dir,date2,f'{date2}.mli'), 
-                    widthmli, 1, 1, 0, 10, 10, 0.1, 0.9, 1.0, .35, 1,
-                    os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'))
+                    widthmli, '-', '-', 10, 10, 0.1, 0.9, 2,'-', 
+                    os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'),
+                    1,.35)
+
+        
     if unw_in_geo:
         # print in blue, phase unwrapping in geo coordinates
         print(bcolors.OKBLUE + f'Phase unwrapping {date1}-{date2} in geo coordinates' + bcolors.ENDC)
@@ -2481,10 +2491,11 @@ def proc_unw(date1,date2,config):
                     os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw.tif'))
 
 
-        pg.rascc(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
+        pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
                     os.path.join(rslc_dir,date2,f'{date2}.mli'), 
-                    widthmli, 1, 1, 0, 10, 10, 0.1, 0.9, 1.0, .35, 1,
-                    os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'))
+                    widthmli, '-', '-', 10, 10, 0.1, 0.9, 2,'-', 
+                    os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'),
+                    1,.35)
         
 
 
