@@ -628,20 +628,20 @@ def produce_geocode_hgt(
     print(f"MLI width (range samples): {widthmli}")
 
     # Output TIF of DEM
-    pg.rashgt(f"{dateM}.hgt", "-", widthmli, "-", "-", "-", 1, 1, "-", 1.0, 0.35, "-", f"{dateM}.hgt.tif")
+    # pg.rashgt(f"{dateM}.hgt", "-", widthmli, "-", "-", "-", 1, 1, "-", 1.0, 0.35, "-", f"{dateM}.hgt.tif")
 
     # Geocode back DEM
     pg.geocode_back(f"{dateM}.hgt", widthmli, f"{dateM}.lt_fine", f"{dateM}.hgt.geo", widthdem, "-", 0, 0)
 
     # Output TIF of geocoded DEM
-    pg.rashgt(f"{dateM}.hgt.geo", "-", widthdem, "-", "-", "-", raspixavr, raspixavaz, "-", 1.0, 0.35, "-", f"{dateM}.hgt.geo.tif")
+    # pg.rashgt(f"{dateM}.hgt.geo", "-", widthdem, "-", "-", "-", raspixavr, raspixavaz, "-", 1.0, 0.35, "-", f"{dateM}.hgt.geo.tif")
 
     pg.data2geotiff(dem_par_file, f"{dateM}.hgt.geo", 2, f"{dateM}.hgt.geotiff.tif")
 
     # If optional input file is given, run rashgt again with it
-    if optional_input_file and optional_input_file != slc_directory:
-        print(f"Running rashgt with optional input file: {optional_input_file}")
-        pg.rashgt(f"{dateM}.hgt.geo", optional_input_file, widthdem, "-", "-", "-", 1, 1, "-", 1.0, 0.35, "-", f"{dateM}.mli.hgt.geo.tif")
+    # if optional_input_file and optional_input_file != slc_directory:
+    #     print(f"Running rashgt with optional input file: {optional_input_file}")
+    #     pg.rashgt(f"{dateM}.hgt.geo", optional_input_file, widthdem, "-", "-", "-", 1, 1, "-", 1.0, 0.35, "-", f"{dateM}.mli.hgt.geo.tif")
 
 def produce_lookvectors(config):
 
