@@ -1160,19 +1160,6 @@ def dem_to_master(config):
                0)      
     produce_geocode_hgt(dateM,os.path.join(topdir,'slcs',f'{dateM}M',f'{dateM}.mli.par'),os.path.join(topdir,'slcs',f'{dateM}M',f'P.dem_par'),os.path.join(topdir,'slcs',f'{dateM}M'),os.path.join(topdir,'slcs',f'{dateM}M',f'{dateM}.mli'))
     
-    if cleanup:
-        im_fp = os.path.join(topdir,'slcs',f'{dateM}M/{dateM}M.lt_fine')
-        im_tif_fp = os.path.join(topdir,'slcs',f'{dateM}M/{dateM}M.lt_fine.tif')
-        im_png_fp = os.path.join(topdir,'slcs',f'{dateM}M/{dateM}M.lt_fine.png')
-        im_width = widthdem
-
-        pg.rasmph_pwr24(im_fp, os.path.join(topdir,'slcs',f'{dateM}M',f'{dateM}.mli'),im_width,  1, 1, 0, 1, 1, 0.8, .35, 1, im_tif_fp)
-        #pg.rasmph(im_fp,im_width,'-',rlks,azlks,0.5,'-','-',im_tif_fp,'-')
-        print(bcolors.OKGREEN,'5. Look-up table fine IMAGE PRINT: ',im_png_fp,bcolors.ENDC)
-        pg.run_cmd('convert', im_tif_fp, '-transparent', 'black', im_png_fp)
-        
-
-        
 
 
 
