@@ -2457,7 +2457,7 @@ def proc_unw(date1,date2,config):
         rounds = config['adf_filter']['rounds']
         pg.geocode_back(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), widthmli, 
                         os.path.join(ifgm_dir,f'{dateM}M.lt_fine'), 
-                        os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo'), widthdem, '-', 0) 
+                        os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo'), widthdem, '-', '-',1) 
 
         pg.geocode_back(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
                             widthmli, 
