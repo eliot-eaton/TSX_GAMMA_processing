@@ -3,21 +3,21 @@
     "rounds": 3,
     "settings": {
       "round_1": {
-        "alpha": 0.5,
-        "nfft": 32,
-        "cc_win": 5,
-        "wfrac": 0.5
+        "alpha": 0.3,
+        "nfft": 64,
+        "cc_win": 7,
+        "wfrac": 0.2
       },
       "round_2": {
-        "alpha": 0.5,
-        "nfft": 32,
-        "cc_win": 5,
-        "wfrac": 0.5
+        "alpha": 0.4,
+        "nfft": 32, 
+        "cc_win": 7,
+        "wfrac": 0.2
       },
       "round_3": {
         "alpha": 0.5,
-        "nfft": 32,
-        "cc_win": 5,
+        "nfft": 16,
+        "cc_win": 7,
         "wfrac": 0.5
       }
     }
