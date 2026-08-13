@@ -2407,7 +2407,10 @@ def proc_unw(date1,date2,config):
 
 	# Phase unwrapping mask
 	# Be careful with what you are using as Coherence (smoothed or original) to mask
+
     if unw_in_radar:
+        # print in blue, phase unwrapping in radar coords 
+        print(bcolors.OKBLUE + f'Phase unwrapping {date1}-{date2} in radar coordinates' + bcolors.ENDC)
         # Phase unwrapping mask
         pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'),
                     os.path.join(rslc_dir,date1, f'{date1}.mli'), widthmli, 1, 1, 0, 1, 1, 0.5, 0.0, 0.1, 0.9, 1.0, 0.20, 1, 
@@ -2454,6 +2457,8 @@ def proc_unw(date1,date2,config):
                     widthmli, 1, 1, 0, 10, 10, 0.1, 0.9, 1.0, .35, 1,
                     os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'))
     if unw_in_geo:
+        # print in blue, phase unwrapping in geo coordinates
+        print(bcolors.OKBLUE + f'Phase unwrapping {date1}-{date2} in geo coordinates' + bcolors.ENDC)
          # Geocode unwrapped
         rounds = config['adf_filter']['rounds']
         pg.geocode_back(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), widthmli, 

@@ -19,6 +19,8 @@ def main():
         config = json.load(f)
 
     if args.adf_unw_file:
+         # print in blue, 
+        print(bcolors.OKBLUE + f'Using ADF and UNW config' + bcolors.ENDC)
         with open(args.adf_unw_file, 'r') as f:
             adf_unw_config = json.load(f)
         config.update(adf_unw_config)
