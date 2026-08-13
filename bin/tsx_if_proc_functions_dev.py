@@ -1060,8 +1060,8 @@ def dem_to_master(config):
                 'dem_par':f'{topdir}/dem/{dem}.swap.dem_par',
                 'input_type':0, # 0: GeoTIFF / GDAL supported raster format (default)
                 'priority':1,
-                'geoid': f'/apps/applications/gamma/20201216/1/default/DIFF/scripts/egm2008-5.dem',
-                'geoid_par':f'/apps/applications/gamma/20201216/1/default/DIFF/scripts/egm2008-5.dem_par', 
+                'geoid': f"$DIFF_HOME/scripts/egm2008-5.dem",
+                'geoid_par':f"$DIFF_HOME/scripts/egm2008-5.dem_par", 
                 'geoid_type':0}
 
     # 2022 Update way to import DEM and apply geoid correction so relative to ellipsoid
