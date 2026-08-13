@@ -1799,6 +1799,12 @@ def proc_if(date1,date2,config):
             os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
             widthmli, 0.5, 16, 7, '-', 0, '-', 0.2)
         rounds = 3
+        
+        pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
+                        os.path.join(rslc_dir,date2,f'{date2}.mli'), 
+                        widthmli,  '-','-', '-', '-', '-',
+                        os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'))
+            
     else: 
         rounds = config["adf_filter"]["rounds"]
         # Extract the settings dictionary from your loaded JSON data
@@ -1841,6 +1847,10 @@ def proc_if(date1,date2,config):
                             os.path.join(rslc_dir,f'{date2}',f'{date2}.mli'),
                             widthmli, '-','-', '-', '-', '-',
                             out_file+'.tif')
+            pg.rasdt_pwr(cc_file, 
+                             os.path.join(rslc_dir,date2,f'{date2}.mli'), 
+                             widthmli,  '-','-', '-', '-', '-',
+                             cc_file+'.tif')
 
     
     pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), 
@@ -1848,11 +1858,7 @@ def proc_if(date1,date2,config):
                   widthmli, '-','-', '-', '-', '-',
                   os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}.tif'))
     
-    pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
-                os.path.join(rslc_dir,date1,f'{date1}.mli'), 
-                widthmli,  '-','-', '-', '-', '-',
-                os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'))
-    
+  
 
     # pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
     #                     os.path.join(rslc_dir,date2,f'{date2}.mli'), 
