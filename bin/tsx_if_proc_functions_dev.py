@@ -1810,7 +1810,7 @@ def proc_if(date1,date2,config):
         cc_suffixes = ["", "2", "3"]
 
         # Dynamically loop through the rounds (1 to 3)
-        for step in range(1, 4):
+        for step in range(1, rounds + 1):
             # Dynamically fetch the current round's configuration (round_1, round_2, round_3)
             setting = settings[f"round_{step}"]
             
@@ -2502,7 +2502,7 @@ def proc_unw(date1,date2,config):
 
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
                     os.path.join(rslc_dir,date2,f'{date2}.mli'), 
-                    widthmli, '-', '-', 10, 10, 0.1, 0.9, 2,'-', 
+                    widthmli, '-', '-', 1, 1, 0.1, 0.9, 2,'-', 
                     os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'+'.tif'),
                     1,.35)
         

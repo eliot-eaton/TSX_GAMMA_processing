@@ -7,7 +7,7 @@ def main():
     parser = argparse.ArgumentParser(description="A script to process TSX or TDX slcs to IF.")
     # Add arguments
     parser.add_argument('config_file', type=str, help='config file')
-    parser.add_argument('adf_unw_file', type=str, help='config file')
+    parser.add_argument('adf_unw_file', type=str, nargs='?',help='config file')
     args = parser.parse_args()
     # Directory organisations 
     topdir = os.getcwd()
