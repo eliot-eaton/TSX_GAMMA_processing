@@ -1729,8 +1729,8 @@ def proc_if(date1,date2,config):
     #Computation of baseline components normal and parallel to look vector.       
     pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff'), 
                   os.path.join(slc_dir,f'{dateM}M',f'{dateM}.mli'),
-                  widthmli, 1, 1, 0, '-', '-', 1., .20, 1,
-                  os.path.join(ifgm_dir,f'{date1}-{date2}.diff.tif'))    
+                  widthmli, '-', '-', '-', '-','-', 
+                  os.path.join(ifgm_dir,f'{date1}-{date2}.diff.tif'),1., .20)    
     
     
     base_perp_file =os.path.join(ifgm_dir,f'{date1}_{date2}.base.perp')
@@ -1841,13 +1841,13 @@ def proc_if(date1,date2,config):
     
     pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), 
                   os.path.join(rslc_dir,f'{date2}',f'{date2}.mli'),
-                  widthmli, 1, 1, 0, '-', '-', 1., .20, 1,
+                  widthmli, '-','-', '-', '-', '-',
                   os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}.tif'))
     
     pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
                 os.path.join(rslc_dir,date1,f'{date1}.mli'), 
-                widthmli, '-', '-', 10, 10, 0.1, 0.9, 2,'-',
-                os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'),1,.35)
+                widthmli,  '-','-', '-', '-', '-',
+                os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'))
     
 
     # pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
@@ -2100,10 +2100,7 @@ def pixel_offset_tracking(date1, date2, config):
         a = np.fromfile(corrstd_file, dtype=np.float32).byteswap().reshape((lenoff,widthoff))
         cv2.resize(a,dsize=(widthmli,lengthmli), interpolation=cv2.INTER_LINEAR).byteswap().tofile(output_corrstd) 
 
-    # pg.rasmph_pwr(os.path.join(pixoff_dir,f'{date1}_{date2}.disp_map'), 
-    #               os.path.join(rslc_dir,f'{date1}',f'{date1}.mli'), 
-    #               value, 1, 1, 0, '-', '-', 1., .20, 1,
-    #               os.path.join(pixoff_dir,f'{date1}_{date2}.disp_map.tif'))
+  
     output_list = [output_rng, output_az, output_corr, output_corrstd]
     for output in output_list:
         print(bcolors.OKBLUE + f'Geocoding {output}'+bcolors.ENDC)
@@ -2258,10 +2255,7 @@ def pixel_offset_tracking_with_mask(date1, date2, config, ls_map_path):
         a = np.fromfile(corrstd_file, dtype=np.float32).byteswap().reshape((lenoff,widthoff))
         cv2.resize(a,dsize=(widthmli,lengthmli), interpolation=cv2.INTER_LINEAR).byteswap().tofile(output_corrstd) 
 
-    # pg.rasmph_pwr(os.path.join(pixoff_dir,f'{date1}_{date2}.disp_map'), 
-    #               os.path.join(rslc_dir,f'{date1}',f'{date1}.mli'), 
-    #               value, 1, 1, 0, '-', '-', 1., .20, 1,
-    #               os.path.join(pixoff_dir,f'{date1}_{date2}.disp_map.tif'))
+
     output_list = [output_rng, output_az, output_corr, output_corrstd]
     for output in output_list:
         print(bcolors.OKBLUE + f'Geocoding {output}'+bcolors.ENDC)
@@ -3232,86 +3226,7 @@ def crop_slc(date,config):
     
     return 
 
-def plot_backup_diff(date1,date2,config):
-    rlks = config["rlks"]
-    azlks = config["azlks"]
-    dem = config["dem"]
-    demlat = config["demlat"]
-    demlon = config["demlon"]
-    npat_r = config["npat_r"]
-    npat_az = config["npat_az"]
-    r_init = config["r_init"]
-    az_init = config["az_init"]
-    dateM = config['dateM']
-    topdir = config['topdir']
-    slc_dir = config["slc_dir"]
-    dim_dir = config["dim_dir"]
-    cleanup = config["cleanup"]
 
-    dateM_mli_par = pg.ParFile(os.path.join(topdir,'slcs',f'{dateM}M',f'{dateM}.mli.par'))
-    lengthmli= int(dateM_mli_par.get_value('azimuth_lines')) 
-    widthmli=int(dateM_mli_par.get_value('range_samples'))
-
-    ifgm_dir = os.path.join(topdir,'ifgms',f'{date1}-{date2}')
-    rslc_dir = os.path.join(topdir,'rslc')
-
-    pg.create_offset(os.path.join(ifgm_dir,f'{date1}.rslc2.par'),
-                     os.path.join(ifgm_dir,f'{date2}.rslc2.par'),
-                     os.path.join(ifgm_dir, f'{date1}_{date2}.2off'),
-                     1, rlks, azlks, 0)
-
-    pg.phase_sim_orb(os.path.join(ifgm_dir,f'{date1}.rslc2.par'),
-                     os.path.join(ifgm_dir, f'{date2}.rslc2.par'),
-                     os.path.join(ifgm_dir, f'{date1}_{date2}.2off'),
-                     os.path.join(ifgm_dir, f'{dateM}M.hgt'),
-                     os.path.join(ifgm_dir, f'{date1}_{date2}.2sim_unw'),
-                     os.path.join(slc_dir,f'{dateM}M', f'{dateM}.slc.par'),
-                     '-', '-', 1, 1)
-
-    pg.SLC_diff_intf(os.path.join(ifgm_dir,f'{date1}.rslc2'),
-                     os.path.join(ifgm_dir,f'{date2}.rslc2'),
-                     os.path.join(ifgm_dir,f'{date1}.rslc2.par'),
-                     os.path.join(ifgm_dir,f'{date2}.rslc2.par'),
-                     os.path.join(ifgm_dir, f'{date1}_{date2}.2off'),
-                     os.path.join(ifgm_dir, f'{date1}_{date2}.2sim_unw'),
-                     os.path.join(ifgm_dir, f'{date1}-{date2}.2diff'),
-                     rlks, azlks, 0, 0, 0.2, 1, 1)
-  
-   
-    
-    #Adaptive interferogram filter using the power spectral density
-    pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.2diff'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.2diff_sm'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.2smcc'),
-           widthmli, 0.3, 64, 7, '-', 0, '-', 0.2)
-    
-    #Adaptive interferogram filter using the power spectral density    
-    pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.2diff_sm'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.2diff_sm2'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.2smcc2'), 
-           widthmli, 0.4, 32, 7, '-',0, '-', 0.2)
-    
-
- 
-    #Adaptive interferogram filter using the power spectral density    
-    pg.adf(os.path.join(ifgm_dir,f'{date1}-{date2}.2diff_sm2'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.2diff_sm3'), 
-           os.path.join(ifgm_dir,f'{date1}-{date2}.2smcc3'), 
-           widthmli, 0.5, 16, 7, '-', 0, '-', 0.2)
-    
-    pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.2diff_sm3'), 
-                  os.path.join(rslc_dir,f'{date1}',f'{date1}.rslc.mli'),
-                  widthmli, 1, 1, 0, 10, 10, 1., .20, 1,
-                  os.path.join(ifgm_dir,f'{date1}-{date2}.2diff_sm3.tif'))
-    if cleanup:
-        for file in [f'{date1}-{date2}.2diff_sm', f'{date1}-{date2}.2smcc', f'{date1}-{date2}.2diff_sm2', f'{date1}-{date2}.2smcc2']:
-            try:
-                os.remove(os.path.join(ifgm_dir, file))
-            except Exception as e:
-                print(f'ERROR removing {file}: {e}')
-    
- 
-    
 
 def cleanup_files(date1,date2,config):
     topdir = config['topdir']
