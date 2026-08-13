@@ -1837,6 +1837,10 @@ def proc_if(date1,date2,config):
                 setting['wfrac']
             )
 
+            pg.rasmph_pwr(out_file, 
+                            os.path.join(rslc_dir,f'{date2}',f'{date2}.mli'),
+                            widthmli, '-','-', '-', '-', '-',
+                            out_file+'.tif')
 
     
     pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), 
