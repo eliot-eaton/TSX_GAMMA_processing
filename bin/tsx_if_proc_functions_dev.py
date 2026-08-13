@@ -1054,7 +1054,9 @@ def dem_to_master(config):
     print('no. of cells: ',ncells,', nlines: ',nlines,', xdim: ', xdim, 'ydim: ',ydim, ', west: ',west,', North:', north)
     if None in [ncells, nlines, xdim, ydim, west, north]:sys.exit()
     geoid_file = os.path.expandvars("$DIFF_HOME/scripts/egm2008-5.dem")
-    geoid_par = os.path.expandvars(f"$DIFF_HOME/scripts/egm2008-5.dem_par")
+    geoid_par = os.path.expandvars("$DIFF_HOME/scripts/egm2008-5.dem_par")
+    print('find geiod file')
+    print(geoid_file,geoid_par)
     # 2022 Update way to import DEM and apply geoid correction so relative to ellipsoid
     dem_import_dict = {'input_dem':os.path.abspath(f'{topdir}/dem/{dem}.tif'),
                 'bin_dem':f'{topdir}/dem/{dem}.swap.dem',
