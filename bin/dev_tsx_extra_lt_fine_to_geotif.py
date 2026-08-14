@@ -42,11 +42,14 @@ def main():
     dem_par = os.path.join(topdir, 'slcs', f'{dateM}M', 'P.dem_par')
     lt_fine_file = os.path.join(topdir, 'slcs', f'{dateM}M', f'{dateM}M.lt_fine')
     dem_bin = os.path.join(topdir, 'slcs', f'{dateM}M', 'P.dem')
+    ls_map_file = os.path.join(topdir, 'geo', 'ls_map')
+
     pg.data2geotiff(dem_par, lt_fine_file, 4, os.path.join(topdir, 'slcs', f'{dateM}M', f'{dateM}M.lt_fine.geo.tif'))
 
     pg.data2geotiff(dem_par, dem_bin, 2, os.path.join(topdir, 'slcs', f'{dateM}M', f'P.dem.geo.tif'))
                 
-
+    pg.data2geotiff(dem_par, ls_map_file, 2,ls_map_file+'.geo.tif')
+             
 
 
 
