@@ -23,5 +23,6 @@
     }
   },
   "unw_in_radar": true,
-  "unw_in_geo": true
+  "unw_in_geo": true,
+  "cc_thres": 0.65
 }
