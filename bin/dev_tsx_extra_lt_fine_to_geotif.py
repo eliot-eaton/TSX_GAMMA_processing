@@ -48,7 +48,7 @@ def main():
 
     pg.data2geotiff(dem_par, dem_bin, 2, os.path.join(topdir, 'slcs', f'{dateM}M', f'P.dem.geo.tif'))
                 
-    pg.data2geotiff(dem_par, ls_map_file, 1,ls_map_file+'.geo.tif')
+    pg.data2geotiff(dem_par, ls_map_file, 5,ls_map_file+'.geo.tif')
              
 
 
