@@ -2376,7 +2376,7 @@ def proc_unw(date1,date2,config):
         # Phase unwrapping mask
         pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'),
                     os.path.join(rslc_dir,date1, f'{date1}.mli'), widthmli, 1, 1, 0, 1, 1,
-                    0.1, # coherence mask 
+                    0.8, # coherence mask 
                     0.0, 0.1, 0.9, 1.0, 0.20, 1, 
                     os.path.join(ifgm_dir,f'{date1}-{date2}.mask.ras'))
         # Unwrap Minimum Cost Function
@@ -2428,14 +2428,14 @@ def proc_unw(date1,date2,config):
         print(bcolors.OKBLUE + f'Phase unwrapping {date1}-{date2} in geo coordinates' + bcolors.ENDC)
          # Geocode unwrapped
         rounds = config['adf_filter']['rounds']
-        pg.geocode_back(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), widthmli, 
+        pg.geocode_back(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm3'), widthmli, 
                         os.path.join(ifgm_dir,f'{dateM}M.lt_fine'), 
                         os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo'), widthdem, '-', '-',1) 
 
-        pg.geocode_back(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'), 
+        pg.geocode_back(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'), 
                             widthmli, 
                             os.path.join(ifgm_dir,f'{dateM}M.lt_fine'), 
-                            os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}.geo'),
+                            os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3.geo'),
                             widthdem, '-', 2)
         # Phase unwrapping mask
         pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3.geo'),
@@ -2445,7 +2445,7 @@ def proc_unw(date1,date2,config):
                     '-',# nlines
                     '-',# pix av
                     '-',# pix av
-                    0.7, # coherence mask
+                    0.8, # coherence mask
                     0.0,
                     0.1,
                     0.9,
