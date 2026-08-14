@@ -63,8 +63,8 @@ def main():
     # Sort unique_dates in chronological order
     unique_dates = sorted(unique_dates, key=lambda x: datetime.strptime(x, "%Y%m%d"))
 
-    dem_par = pg.ParFile(os.path.join(topdir, 'slcs', f'{dateM}M', 'P.dem_par'))	
-    widthdem=int(dem_par.get_value('width'))
+    dem_par = os.path.join(topdir, 'slcs', f'{dateM}M', 'P.dem_par')
+
     
    
 
