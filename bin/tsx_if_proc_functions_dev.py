@@ -1743,53 +1743,75 @@ def proc_if(date1,date2,config):
                         widthmli,  '-','-', '-', '-', '-',
                         os.path.join(ifgm_dir,f'{date1}-{date2}.smcc{rounds}'+'.tif'))
             
-    else: 
+    else:
         rounds = config["adf_filter"]["rounds"]
-        # Extract the settings dictionary from your loaded JSON data
         settings = config["adf_filter"]["settings"]
 
-        # Define the file suffixes for each consecutive step
+        # Input suffix for each possible round
         in_suffixes = ["", "_sm", "_sm2"]
+
+        # Normal intermediate output suffixes
         out_suffixes = ["_sm", "_sm2", "_sm3"]
         cc_suffixes = ["", "2", "3"]
 
-        # Dynamically loop through the rounds (1 to 3)
         for step in range(1, rounds + 1):
-            # Dynamically fetch the current round's configuration (round_1, round_2, round_3)
             setting = settings[f"round_{step}"]
-            
-            # Map index for file suffixes
             idx = step - 1
-            
-            # Construct input, output, and cc file paths
-            in_file = os.path.join(ifgm_dir, f"{date1}-{date2}.diff{in_suffixes[idx]}")
-            out_file = os.path.join(ifgm_dir, f"{date1}-{date2}.diff{out_suffixes[idx]}")
-            cc_file = os.path.join(ifgm_dir, f"{date1}-{date2}.smcc{cc_suffixes[idx]}")
-            
-            # Execute the PyRATE / Gamma adf command using the round's specific parameters
-            pg.adf(
-                in_file, 
-                out_file, 
-                cc_file,
-                widthmli, 
-                setting["alpha"], 
-                setting["nfft"], 
-                setting["cc_win"], 
-                '-', 
-                0, 
-                '-', 
-                setting['wfrac']
+
+            in_file = os.path.join(
+                ifgm_dir,
+                f"{date1}-{date2}.diff{in_suffixes[idx]}"
             )
 
-            pg.rasmph_pwr(out_file, 
-                            os.path.join(rslc_dir,f'{date2}',f'{date2}.mli'),
-                            widthmli, '-','-', '-', '-', '-',
-                            out_file+'.tif')
-            pg.rasdt_pwr(cc_file, 
-                             os.path.join(rslc_dir,date2,f'{date2}.mli'), 
-                             widthmli,  '-','-', '-', '-', '-','-','-','-',
-                             cc_file+'.tif')
-            
+            # The final round must always produce the filenames
+            # expected by the downstream processing
+            if step == rounds:
+                out_suffix = "_sm3"
+                cc_suffix = "3"
+            else:
+                out_suffix = out_suffixes[idx]
+                cc_suffix = cc_suffixes[idx]
+
+            out_file = os.path.join(
+                ifgm_dir,
+                f"{date1}-{date2}.diff{out_suffix}"
+            )
+
+            cc_file = os.path.join(
+                ifgm_dir,
+                f"{date1}-{date2}.smcc{cc_suffix}"
+            )
+
+            pg.adf(
+                in_file,
+                out_file,
+                cc_file,
+                widthmli,
+                setting["alpha"],
+                setting["nfft"],
+                setting["cc_win"],
+                '-',
+                0,
+                '-',
+                setting["wfrac"]
+            )
+
+            pg.rasmph_pwr(
+                out_file,
+                os.path.join(rslc_dir, date2, f"{date2}.mli"),
+                widthmli,
+                '-', '-', '-', '-', '-',
+                out_file + '.tif'
+            )
+
+            pg.rasdt_pwr(
+                cc_file,
+                os.path.join(rslc_dir, date2, f"{date2}.mli"),
+                widthmli,
+                '-', '-', '-', '-', '-', '-', '-', '-',
+                cc_file + '.tif'
+            )
+                
 
     
     pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), 
@@ -2352,8 +2374,10 @@ def proc_unw(date1,date2,config):
         # print in blue, phase unwrapping in radar coords 
         print(bcolors.OKBLUE + f'Phase unwrapping {date1}-{date2} in radar coordinates' + bcolors.ENDC)
         # Phase unwrapping mask
-        pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.cc'),
-                    os.path.join(rslc_dir,date1, f'{date1}.mli'), widthmli, 1, 1, 0, 1, 1, 0.5, 0.0, 0.1, 0.9, 1.0, 0.20, 1, 
+        pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3'),
+                    os.path.join(rslc_dir,date1, f'{date1}.mli'), widthmli, 1, 1, 0, 1, 1,
+                    0.1, # coherence mask 
+                    0.0, 0.1, 0.9, 1.0, 0.20, 1, 
                     os.path.join(ifgm_dir,f'{date1}-{date2}.mask.ras'))
         # Unwrap Minimum Cost Function
         pg.mcf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm3'),
@@ -2415,7 +2439,18 @@ def proc_unw(date1,date2,config):
                             widthdem, '-', 2)
         # Phase unwrapping mask
         pg.rascc_mask(os.path.join(ifgm_dir,f'{date1}-{date2}.smcc3.geo'),
-                    os.path.join(rslc_dir,date1, f'{date1}_geocode.mli'), widthdem, 1, 1, 0, 1, 1, 0.5, 0.0, 0.1, 0.9, 1.0, 0.20, 1, 
+                    os.path.join(rslc_dir,date1, f'{date1}_geocode.mli'), widthdem,
+                    '-',# start cc 
+                    '-',# start pwr 
+                    '-',# nlines
+                    '-',# pix av
+                    '-',# pix av
+                    0.7, # coherence mask
+                    0.0,
+                    0.1,
+                    0.9,
+                    1.0,
+                    0.20, 1, 
                     os.path.join(ifgm_dir,f'{date1}-{date2}.geo.mask.ras'))
         # Unwrap Minimum Cost Function
         pg.mcf(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo'),
