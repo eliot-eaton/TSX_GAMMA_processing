@@ -1357,72 +1357,10 @@ def dev_proc_slc_to_rslc(date, config):
                         os.path.join(topdir,'slcs',f'{dateM}M',f'{dateM}M.lt_fine'), 
                         os.path.join(rslc_dir,date,f'{date}_geocode.mli'), 
                         widthdem, '-', 2, 0)
-    # use pg.SLC_ovr to over sample the rslc 
-    """usage: SLC_ovr <SLC> <SLC_par> <SLC_ovr> <SLC_ovr_par> [r_ovr] [az_ovr] [mode] [order]
-
-    input parameters:
-    SLC          (input) SLC image  (FCOMPLEX or SCOMPLEX format)
-    SLC_par      (input) SLC image parameter file
-    SLC_ovr      (output) oversampled SLC image
-    SLC_ovr_par  (output) oversampled SLC image parameter file
-    r_ovr        range oversampling factor (enter - for default: 1.0)
-    az_ovr       azimuth oversampling factor (enter - for default: 1.0)
-    mode         interpolation mode (enter - for default)
-                    0: Lanczos interpolation (default)
-                    1: B-spline interpolation
-    order        Lanczos interpolator order / B-spline degree 4 -> 9 (enter - for default: 4)"""
-
-    # print(bcolors.OKBLUE + 'pg.SLC_ovr()' + bcolors.ENDC)
-    # pg.SLC_ovr(
-    #     rslc_file,
-    #     rslc_par_file,
-    #     os.path.join(rslc_date_dir, f'{date}.rslc.ovr'),
-    #     os.path.join(rslc_date_dir, f'{date}.rslc.ovr.par'),
-    #     2,
-    #     2,
-    #     0,  # mode: 0 for Lanczos interpolation
-    #     4   # order: 4 for Lanczos order
-    # )
-
-    # # change name of rslc to rslc.pre_over and change name of rslc.ovr to rslc
-    # rslc_pre_over_file = os.path.join(rslc_date_dir, f'{date}.rslc.pre_over')
-    # rslc_ovr_file = os.path.join(rslc_date_dir, f'{date}.rslc.ovr')
-    # if os.path.exists(rslc_pre_over_file):
-    #     os.remove(rslc_pre_over_file)
-    # os.rename(rslc_file, rslc_pre_over_file)
-    # rslc_pre_ovr__file = os.path.join(rslc_date_dir, f'{date}.rslc.pre_ovr.par')
-    # os.rename(rslc_par_file, rslc_pre_ovr__file)
-    # os.rename(os.path.join(rslc_date_dir, f'{date}.rslc.ovr'), rslc_file)
-    # os.rename(os.path.join(rslc_date_dir, f'{date}.rslc.ovr.par'), rslc_par_file)
-
-
+    
     return      
 
-# def dev_geocode_reference_slc(date, config):
 
-#     print(f"Running geocoding.py for master MLI: {date}")
-#     dateM = config['dateM']
-#     topdir = config['topdir']
-#     slc_dir = config['slc_dir']
-
-#     mli = os.path.join(slc_dir, f"{dateM}M", f"{dateM}.mli")
-#     mli_par = os.path.join(slc_dir, f"{dateM}M", f"{dateM}.mli.par")
-#     dem = os.path.join(slc_dir, f"{dateM}M", "P.dem")
-#     dem_par = os.path.join(slc_dir, f"{dateM}M", "P.dem_par")
-#     root_name = os.path.join(slc_dir, f"{dateM}M", f"{dateM}")
-
-#     cmd = [
-#         sys.executable,  # Use current python interpreter
-#         "/nfs/a283/homes/ee16eme/py/tsx_if_processing_code/tsx_if_py/src/geocoding.py",
-#         mli,
-#         mli_par,
-#         dem,
-#         dem_par,
-#         root_name
-#     ]
-#     print(" ".join(cmd))
-#     subprocess.run(cmd, check=True)
-#     return
 
 def proc_slc_to_rslc(date, config):
 
@@ -1851,6 +1789,7 @@ def proc_if(date1,date2,config):
                              os.path.join(rslc_dir,date2,f'{date2}.mli'), 
                              widthmli,  '-','-', '-', '-', '-','-','-','-',
                              cc_file+'.tif')
+            
 
     
     pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm{rounds}'), 
