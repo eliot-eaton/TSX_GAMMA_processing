@@ -2355,15 +2355,17 @@ def proc_unw(date1,date2,config):
     
     if 'unw_in_radar' in config:
         unw_in_radar = config['unw_in_radar']
+        cc_thres = config['cc_thres']
     else: 
         unw_in_radar = True
 
     if 'unw_in_geo' in config:
         unw_in_geo = config['unw_in_geo']
+        cc_thres = config['cc_thres']
     else:
         unw_in_geo = False
-
-    cc_thres = config['cc_thres']
+        cc_thres = 0.5
+    
     ###############
     # UNWRAPPING
     ########## MCF
