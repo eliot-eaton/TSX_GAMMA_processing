@@ -1748,11 +1748,11 @@ def proc_if(date1,date2,config):
         settings = config["adf_filter"]["settings"]
 
         # Input suffix for each possible round
-        in_suffixes = ["", "_sm", "_sm2"]
+        in_suffixes = ["", "_sm0","_sm1", "_sm2"]
 
         # Normal intermediate output suffixes
-        out_suffixes = ["_sm", "_sm2", "_sm3"]
-        cc_suffixes = ["", "2", "3"]
+        out_suffixes = ["_sm0","_sm1", "_sm2", "_sm3"]
+        cc_suffixes = ["","1", "2", "3"]
 
         for step in range(1, rounds + 1):
             setting = settings[f"round_{step}"]
