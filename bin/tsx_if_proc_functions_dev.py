@@ -2406,6 +2406,9 @@ def proc_unw(date1,date2,config):
                             os.path.join(ifgm_dir,f'{dateM}M.lt_fine'), 
                             os.path.join(ifgm_dir,f'{date1}-{date2}.smcc.geo'),
                             widthdem, '-', 2)
+        pg.data2geotiff(os.path.join(ifgm_dir,'P.dem_par'), 
+                                        os.path.join(ifgm_dir,f'{date1}-{date2}.smcc.geo'), 2,
+                                        os.path.join(ifgm_dir,f'{date1}-{date2}.smcc.geo' +'.tif'), 0.0)
         pg.rasmph_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.unw'), 
                           os.path.join(rslc_dir,f'{date2}',f'{date2}.mli'),
                           widthmli, 1, 1, 0, '-', '-', 1., .20, 1,
@@ -2469,7 +2472,7 @@ def proc_unw(date1,date2,config):
         pg.data2geotiff(os.path.join(ifgm_dir,'P.dem_par'), 
                         os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw'), 2,
                         os.path.join(ifgm_dir,f'{date1}-{date2}.geo.unw.tif'), 0.0)
-
+        
         
         pg.rasdt_pwr(os.path.join(ifgm_dir,f'{date1}-{date2}.diff_sm.geo.unw'), 
                     os.path.join(rslc_dir,date2,f'{date2}_geocode.mli'), 
